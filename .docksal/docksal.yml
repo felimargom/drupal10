@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  # Web
+  web:
+    extends:
+      file: ${HOME}/.docksal/stacks/services.yml
+      service: apache
+    image: docksal/apache:2.4-2.3
+    depends_on:
+      - cli
+
+
+  # DB
+  db:
+    volumes:
+      - ${PROJECT_ROOT}/db:/docker-entrypoint-initdb.d:ro
+    extends:
+      file: ${HOME}/.docksal/stacks/services.yml
+      service: mysql
+    image: docksal/mysql:8.0-2.0
+
+  # CLI
+  cli:
+    extends:
+      file: ${HOME}/.docksal/stacks/services.yml
+      service: cli
+    image: docksal/cli:php8.1-3.3
+    environment:
+      - COMPOSER_DEFAULT_VERSION="2"
+
+  # Redis
+  redis:
+    extends:
+      file: ${HOME}/.docksal/stacks/services.yml
+      service: redis
