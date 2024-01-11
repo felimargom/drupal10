@@ -23,8 +23,8 @@ Follow [Docksal environment setup instructions](https://docs.docksal.io/getting-
 
     ```
     git clone https://github.com/felimargom/drupal10.git drupal10
-    cd drupal10
     ```
+1. cd drupal10
 1. Initialize the site with fin start
 1. Import db with `fin db import db/DB_drupal10.sql`
 1. After that, get inside docker container: `fin bash`
