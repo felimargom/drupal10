@@ -26,8 +26,6 @@ Follow [Docksal environment setup instructions](https://docs.docksal.io/getting-
     cd drupal10
     ```
 1. Initialize the site with fin start
-1. Import database 
-1. cd `db`
 1. Import db with `fin db import db/DB_drupal10.sql`
 1. After that, get inside docker container: `fin bash`
 1. Here run this command `composer install` to download and install all needed project dependencies
