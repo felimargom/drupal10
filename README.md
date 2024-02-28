@@ -1,68 +1,75 @@
-# Docksal powered Drupal 10 With Composer Installation
+# DDEV powered Drupal 10 With Composer Installation
 
-This is a sample Drupal 10 with Composer installation pre-configured for use with Docksal.
+This is a sample Drupal 10 with Composer installation pre-configured for use with DDEV.
 
 Features:
 
 - Drupal 10 Composer Project
-- `fin init` [example](.docksal/commands/init)
-- Using the [default](.docksal/docksal.env#L9) Docksal LAMP stack with [image version pinning](.docksal/docksal.env#L13-L15)
-- PHP and MySQL settings overrides [examples](.docksal/etc)
+- Using the [DDEV](https://ddev.readthedocs.io/en/latest/)
+- PHP 8.3 and MySQL 8.0 settings
 
 ## Setup instructions
 
-### Step #1: Docksal environment setup
+### Step #1: DDEV environment setup
 
-**This is a one time setup - skip this if you already have a working Docksal environment.**
+**This is a one time setup - skip this if you already have a working DDEV environment.**
 
-Follow [Docksal environment setup instructions](https://docs.docksal.io/getting-started/setup/)
+Follow [DDEV Installation](https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/)
+
+  ```bash
+  brew install ddev/ddev/ddev
+  mkcert -install
+  ```
 
 ### Step #2: Project setup
 
 1. Clone this repo into your Projects directory
 
-    ```
-    git clone https://github.com/felimargom/drupal10.git drupal10
-    ```
-1. cd drupal10
-1. Initialize the site with fin start
-1. Import db with `fin db import db/DB_drupal10.sql`
-1. After that, get inside docker container: `fin bash`
-1. Here run this command `composer install` to download and install all needed project dependencies
-1. Clear cache `drush cr`
-1. Update database structure `drush updb`
-
-### Step #3: Build the site
-
-
-1. Switch to the **develop branch**: `git checkout -b develop origin/develop`
-
-
-1. Point your browser to
-
-    ```
-    http://drupal10.docksal
+    ```bash
+    git clone git@github.com:felimargom/drupal10.git drupal10
+    cd drupal10
     ```
 
-When the automated install is complete the command line output will display the admin username and password.
+2. Initialize the site
 
+    This will initialize local settings and install the site via DDEV
 
-## More automation with 'fin init'
+    ```bash
+    ddev start
+    ```
 
-Site provisioning can be automated using `fin init`, which calls the shell script in [.docksal/commands/init](.docksal/commands/init).
-This script is meant to be modified per project. The one in this repo will give you a good starting example.
+   A `composer.lock` file will be generated. This file should be committed to
+   your repository.
 
-Some common tasks that can be handled by the init script (an other [custom commands](https://docs.docksal.io/fin/custom-commands/)):
+3. Import database
 
-- initialize local settings files for Docker Compose, Drupal, Behat, etc.
-- import DB or perform a site install
-- compile Sass
-- run DB updates, revert features, clear caches, etc.
-- enable/disable modules, update variables values
+    ```bash
+    ddev import-db --file=DB_drupal10.sql
+    ```
 
+4. Run composer and drush
+
+    ```bash
+    ddev composer install
+    ddev drush cr
+    ddev drush updb
+    ```
+
+5. Point your browser to
+
+    ```bash
+    ddev launch
+    ```
+
+When the automated install is complete the command line output will display the
+admin username and password.
 
 ## Security notice
 
-This repo is intended for quick start demos and includes a hardcoded value for `hash_salt` in `settings.php`.
-If you are basing your project code base on this repo, make sure you regenerate and update the `hash_salt` value.
-A new value can be generated with `drush ev '$hash = Drupal\Component\Utility\Crypt::randomBytesBase64(55); print $hash . "\n";'`
+This repo is intended for quick start demos and includes a hardcoded value for
+`hash_salt` in `settings.php`.
+If you are basing your project code base on this repo, make sure you regenerate
+and update the `hash_salt` value.
+A new value can be generated with
+`drush ev '$hash = Drupal\Component\Utility\Crypt::randomBytesBase64(55); print
+$hash . "\n";'`
