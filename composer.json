@@ -22,6 +22,11 @@
         "drupal/core-recommended": "^10",
         "drush/drush": "^12.4"
     },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
     "conflict": {
         "drupal/drupal": "*"
     },
@@ -32,7 +37,10 @@
         "allow-plugins": {
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
-            "drupal/core-project-message": true
+            "drupal/core-project-message": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "extra": {
@@ -88,5 +96,11 @@
                 "      composer remove drupal/core-project-message"
             ]
         }
+    },
+    "require-dev": {
+        "behat/behat": "^3.14",
+        "behat/mink": "^1.11",
+        "behat/mink-goutte-driver": "^2.0",
+        "drupal/core-dev": "^10.2"
     }
 }
