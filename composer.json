@@ -97,10 +97,10 @@
             ]
         }
     },
-    "require-dev": {
-        "behat/behat": "^3.14",
-        "behat/mink": "^1.11",
-        "behat/mink-goutte-driver": "^2.0",
-        "drupal/core-dev": "^10.2"
+    "scripts": {
+        "post-drupal-scaffold-cmd": [
+          "cd web/themes && ln -sf ../../src/themes/custom",
+          "cd web/modules && ln -sf ../../src/modules/custom"
+        ]
     }
 }
